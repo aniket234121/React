@@ -18,7 +18,10 @@ Welcome to my personal React learning documentation. This repository contains no
 
   - #### useCallback :- [Click here](./src/Topics/Hooks/useImperativeHandle/useImperativeHandle.md)
 
-  - #### Custom Hooks:-
+  - #### useMemo :- [Click here](./src/Topics/Hooks/useMemo/useMemo.md)
+
+  - #### Custom Hooks:- [Click here](./src/Topics/Hooks/CustomHook/CustomHook.md)
 
 - ### Portals:- [Click here](./src/Topics/Portals/portals.md)
 - ### Forms:- [Click here](./src/Topics/Forms/Forms.md)
+- ### Memo:- [Click here](./src/Topics/Memo/Memo.md)
