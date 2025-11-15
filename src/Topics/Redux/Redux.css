@@ -1,0 +1,51 @@
+.redux-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: "Inter", sans-serif;
+}
+
+.redux-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.redux-container p {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 15px 0;
+  color: #444;
+}
+
+.redux-btn {
+  padding: 10px 18px;
+  margin: 8px;
+  border: none;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.redux-btn.increment {
+  background-color: #2563eb;
+  color: white;
+}
+
+.redux-btn.increment:hover {
+  background-color: #1e4fcf;
+}
+
+.redux-btn.multiply {
+  background-color: #059669;
+  color: white;
+}
+
+.redux-btn.multiply:hover {
+  background-color: #047857;
+}

@@ -1,19 +1,37 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { INCREMENT } from "./store/storeDataRedux";
+import { INCREMENT } from "./store/CounterRedux";
+import { mulitplierAction } from "./store/MultiplierRedux";
+import "./Redux.css";
+
 const Redux = () => {
-  const counter = useSelector((state) => state.counter);
+  const counter = useSelector((state) => state.counter.counter);
+  const multiplierValue = useSelector((state) => state.multiplier.value);
   const dispatch = useDispatch();
 
   const handleClick = () => {
     dispatch({ type: INCREMENT });
   };
+
+  const handleMultiplier = () => {
+    dispatch(mulitplierAction.multiply(5));
+  };
+
   return (
-    <div>
+    <div className="redux-container">
       <h2>Redux</h2>
+
       <p>{counter}</p>
-      <button onClick={handleClick}>increase counter</button>
-      <p>using redux store </p>
+      <button className="redux-btn increment" onClick={handleClick}>
+        Increase Counter
+      </button>
+
+      <p>{multiplierValue}</p>
+      <button className="redux-btn multiply" onClick={handleMultiplier}>
+        Multiply by 5
+      </button>
+
+      <p>Using Redux Store</p>
     </div>
   );
 };
