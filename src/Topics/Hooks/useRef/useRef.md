@@ -85,3 +85,39 @@ forwardRef fixes that limitation, making function components “ref-friendly.”
 - When creating custom reusable input components
 - When building Portals, Modals, Toasts, Tooltips
 - When using Imperative “trigger” APIs (via useImperativeHandle)
+
+```javascript
+import React from "react";
+import { useRef } from "react";
+import Input from "./Input";
+
+const ForwardRef = () => {
+  const inputRef = useRef();
+
+  return (
+    <div>
+      <h2>forward ref</h2>
+      <p>parent component</p>
+      <Input ref={inputRef}></Input>
+    </div>
+  );
+};
+
+export default ForwardRef;
+```
+
+---
+
+```javascript
+import React, { forwardRef } from "react";
+
+const Input = forwardRef(({}, ref) => {
+  return (
+    <div>
+      <input type="text" ref={ref} />
+    </div>
+  );
+});
+
+export default Input;
+```
