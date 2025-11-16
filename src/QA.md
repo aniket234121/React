@@ -54,10 +54,10 @@ Both go into the same batch.
 
 ### <span style="color:#ff944d;">4. On the next render, React re-runs your component</span>
 
-- fresh function run  
-- new state  
-- variables reset  
-- state + refs persist  
+- fresh function run
+- new state
+- variables reset
+- state + refs persist
 
 ---
 
@@ -92,8 +92,8 @@ function Counter() {
 }
 ```
 
-- snapshot never changes mid-render  
-- closure captures the old value  
+- snapshot never changes mid-render
+- closure captures the old value
 
 ---
 
@@ -111,11 +111,12 @@ Not applied immediately.
 console.log(count); // still 0
 ```
 
-NOT because of:  
-- async  
-- delay  
-- event loop  
-- batching  
+NOT because of:
+
+- async
+- delay
+- event loop
+- batching
 
 The real reason → **closure**.
 
@@ -132,9 +133,9 @@ console.log(count); // now 1
 <h2 style="color:#ff4d4d;">Q. Why does this work?</h2>
 
 ```js
-setCount(prev => prev + 1);
-setCount(prev => prev + 1);
-setCount(prev => prev + 1);
+setCount((prev) => prev + 1);
+setCount((prev) => prev + 1);
+setCount((prev) => prev + 1);
 ```
 
 It increases by **+3**.
@@ -206,13 +207,82 @@ Because the closure has **old state**, but React has **new state queued**.
 
 So using the old variable leads to:
 
-- wrong calculations  
-- missed updates  
-- inconsistent UI  
+- wrong calculations
+- missed updates
+- inconsistent UI
 - bugs like `+1` when you expected `+2`
 
 ---
 
 ### <span style="color:#4CAF50;">In one sentence:</span>
 
-**A stale closure happens when your logic uses state from an outdated render instead of the latest state, causing incorrect behavior.**
+---
+
+<h2 style="color:#ff4d4d;">Q. Why does using <code>setCount(count + 1)</code> inside event handlers often cause stale state bugs?</h2>
+
+### <span style="color:#ff944d;">Answer</span>
+
+Because `count` is taken from the **current render’s snapshot**, not the upcoming one.
+
+When you write:
+
+```js
+setCount(count + 1);
+```
+
+`count` is whatever value existed **during this render**, and that value is frozen inside the closure.
+
+---
+
+### <span style="color:#ff944d;">Why this creates stale state</span>
+
+Even if React has already queued a new state value, your event handler still uses:
+
+- the old `count`
+- from the old render
+- stored inside the old closure
+
+So multiple calls like:
+
+```js
+setCount(count + 1);
+setCount(count + 1);
+```
+
+all use the **same stale value**, causing incorrect state updates.
+
+---
+
+### <span style="color:#4CAF50;">In one sentence:</span>
+
+**`setCount(count + 1)` uses the outdated state snapshot captured by the closure, so repeated updates operate on stale state instead of the latest value.**
+
+<h2 style="color:#ff4d4d;">Q. Why does the functional updater <code>setCount(prev => prev + 1)</code> avoid stale closure bugs?</h2>
+
+### <span style="color:#4CAF50;">Answer</span>
+
+**Because the functional updater doesn’t use the stale closure — it receives the latest state directly from React’s internal update queue, so every update is applied on top of the truly newest value.**
+
+<h2 style="color:#ff4d4d;">Q. If each render has its own closure, how does React preserve state between renders?</h2>
+
+### <span style="color:#4CAF50;">Answer</span>
+
+React preserves state because the state is **not stored inside your component**.  
+React stores all state values **internally (in a hidden array)**, and on every render it hands your component the next saved value.
+
+---
+
+### <span style="color:#2196F3;">In one sentence</span>
+
+**State lives in React, not in your component — each new render simply reads the stored state value from React’s internal memory.**
+<h2 style="color:#ff4d4d;">Q. Why does React re-run the component instead of updating variables inside it?</h2>
+
+### <span style="color:#4CAF50;">Answer</span>
+
+**Because every time state changes, React needs to re-draw the UI from scratch — and the easiest way is to simply call your component function again to produce a fresh render.**
+
+React cannot change variables inside an old render because those variables are **frozen inside that render’s closure**.
+
+So React does the simple thing:
+
+**Throw away the old render → create a new one with the updated state.**
