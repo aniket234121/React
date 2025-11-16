@@ -26,7 +26,7 @@ const UseImperativeHandle = () => {
   return (
     <div>
       <button onClick={() => Ref.current.open()}>open ref</button>
-      <Modal></Modal>
+      <Modal ref={Ref}></Modal>
     </div>
   );
 };
