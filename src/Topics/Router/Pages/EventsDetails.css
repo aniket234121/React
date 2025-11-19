@@ -1,0 +1,53 @@
+.events-page {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.nav-buttons button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+
+.nav-buttons button:hover {
+  background: #000;
+}
+
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.event-card {
+  display: block;
+  padding: 1rem;
+  background: #f7f7f7;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #444;
+  transition: 0.2s;
+  border: 1px solid #ddd;
+}
+
+.event-card:hover {
+  background: #e8e8e8;
+  transform: translateY(-2px);
+}

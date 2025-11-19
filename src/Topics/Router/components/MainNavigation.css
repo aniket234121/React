@@ -1,0 +1,32 @@
+header {
+  background: #ffffff;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+nav .links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+nav .links li a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+  padding: 6px 4px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+nav .links li a:hover {
+  color: #000;
+}
+
+nav .links li a.active-link {
+  color: #007bff; /* Active text color */
+  border-bottom: 2px solid #007bff; /* Underline active page */
+}
