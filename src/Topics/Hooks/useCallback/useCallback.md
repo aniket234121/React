@@ -28,7 +28,7 @@ const Parent = () => {
 
   const handleClick = useCallback(() => {
     console.log("Button clicked");
-  }, []);
+  }, []);// empty dependency: function never changes
 
   return (
     <>
@@ -37,7 +37,7 @@ const Parent = () => {
     </>
   );
 };
-
+// React.memo prevents unnecessary re-renders if props haven't changed
 const Child = React.memo(({ onClick }) => {
   console.log("Child rendered");
   return <button onClick={onClick}>Child Button</button>;
