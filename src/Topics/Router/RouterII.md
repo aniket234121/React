@@ -574,6 +574,7 @@ This is something <Form> cannot do on its own.
 | Purpose            | background fetch + background form submission |
 
 #### defining the route and action
+
 ```javascript
 {
   path: "/tasks",
@@ -582,7 +583,9 @@ This is something <Form> cannot do on its own.
 ```
 
 ---
+
 #### action function to run on submit on that route
+
 ```javascript
 export async function addTaskAction({ request }) {
   const data = await request.formData();
@@ -591,7 +594,9 @@ export async function addTaskAction({ request }) {
 ```
 
 ---
+
 #### using useFetcher to not navigate and perform background submission
+
 ```javascript
 const fetcher = useFetcher();
 
@@ -602,5 +607,107 @@ const fetcher = useFetcher();
 
 {
   fetcher.data?.added && <p>Added: {fetcher.data.added}</p>;
+}
+```
+
+### Defer
+
+defer() lets you return partially loaded data from a loader so the UI can start rendering immediately while some data loads in the background.
+
+This is React Router’s built-in streaming / suspense-style data loading.
+
+#### Why defer Exists
+
+Typical loader forces you to wait:
+
+```javascript
+export async function loader() {
+  const data = await expensiveFetch(); // long wait
+  return data;
+}
+```
+
+→ Page won’t render until the entire loader resolves.
+
+defer solves this.
+
+It lets you:
+
+✔ serve fast data immediately
+
+✔ stream slow data lazily
+
+✔ show partial content ASAP
+
+✔ display fallback placeholders via < Await>
+
+### < Await> Component
+
+---
+
+- < Await> is required to read deferred data.
+
+```javascript
+<Await resolve={data.posts}>{(posts) => <PostsList posts={posts} />}</Await>
+```
+
+Must be wrapped in < Suspense>:
+
+```
+<Suspense fallback={<p>Loading...</p>}>
+```
+
+#### Error Handling in Await
+
+```javascript
+<Await
+  resolve={data.posts}
+  errorElement={<p>Failed to load posts!</p>}
+>
+  {(posts) => ...}
+</Await>
+```
+
+If the promise rejects → errorElement shown.
+
+Example:-
+
+```javascript
+export async function loader() {
+  const user = await fetch("/api/me").then((res) => res.json());
+  const orders = fetch("/api/orders").then((res) => res.json());
+
+  return defer({
+    user,
+    orders, // slow
+  });
+}
+```
+
+---
+
+```javascript
+export default function AccountPage() {
+  const data = useLoaderData();
+
+  return (
+    <>
+      <h1>Account</h1>
+
+      <p>Welcome, {data.user.name}</p>
+
+      <Suspense fallback={<p>Loading Orders…</p>}>
+        <Await resolve={data.orders}>
+          {(orders) => (
+            <ul>
+              {orders.map((o) => (
+                <li key={o.id}>{o.product}</li>
+              ))}
+            </ul>
+          )}
+        </Await>
+      </Suspense>
+    </>
+  );
 }
 ```
