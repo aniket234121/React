@@ -15,12 +15,16 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        path: "/",
         element: <HomePage />,
       },
-      { path: "/Contact", element: <Contact /> },
-      { path: "/Events", element: <Events /> },
-      { path: "/Events/:id", element: <EventDetails /> },
+      { path: "Contact", element: <Contact /> },
+      {
+        path: "Events",
+        children: [
+          { index:true, element: <Events /> },
+          { path: ":id", element: <EventDetails /> },
+        ],
+      },
     ],
   },
 ]);

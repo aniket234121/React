@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router";
-import "./MainNavigation.css"
+import "./MainNavigation.css";
 const MainNavigation = () => {
   return (
     <header>
@@ -30,14 +30,6 @@ const MainNavigation = () => {
               className={({ isActive }) => (isActive ? "active-link" : "")}
             >
               Events
-            </NavLink>
-          </li>
-           <li>
-            <NavLink
-              to={`/Events/:${'id'}`}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Events Details
             </NavLink>
           </li>
         </ul>
