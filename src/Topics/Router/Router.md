@@ -215,6 +215,18 @@ Useful for navigation menus and highlighting the current page.
 
 - Handles dynamic matching (exact/partial)
 
+### Internally, NavLink:
+
+- Reads the current URL from the router context
+
+- Compares it with the to path
+
+If they match, it sets:
+
+isActive = true
+
+Applies active styling or class
+
 ```javascript
 <NavLink
   to="/about"
